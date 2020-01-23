@@ -1,13 +1,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const AuthRouter = require("./router/Auth");
+const UserRouter = require("./router/UserRouter");
 const config = require("./config");
 
 const app = express();
 
 // routing
-app.use("/auth", AuthRouter);
+app.use("/user", UserRouter);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("public/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 
