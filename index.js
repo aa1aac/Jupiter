@@ -6,8 +6,10 @@ const config = require("./config");
 
 const app = express();
 
+app.use(express.json());
+
 // routing
-app.use("/user", UserRouter);
+app.use("/api/user/", UserRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("public/build"));

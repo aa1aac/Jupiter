@@ -1,19 +1,19 @@
 const express = require("express");
 
-const AuthController = require("../controller/AuthController");
+const UserController = require("../controller/UserController");
 
 const router = express.Router();
 
 // PUBLIC
-// /auth/login
-router.post("login", AuthController.login);
+// /user/login
+router.post("login", UserController.login);
 
 // PRIVATE
-// /auth/logout
-router.get("logout", AuthController.logout);
+// /user/logout
+router.get("logout", UserController.logout);
 
 // PUBLIC
-// /auth/signup
-router.post("signup", AuthController.signup);
+// /user/signup
+router.post("/signup", UserController.signup);
 
 module.exports = router;
