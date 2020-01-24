@@ -6,11 +6,11 @@ const router = express.Router();
 
 // PUBLIC
 // /user/login
-router.post("login", UserController.login);
+router.post("/login", UserController.login);
 
 // PRIVATE
 // /user/logout
-router.get("logout", UserController.logout);
+router.get("/logout", UserController.logout);
 
 // PUBLIC
 // /user/signup

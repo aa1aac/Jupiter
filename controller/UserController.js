@@ -2,9 +2,31 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/Users");
-const config = require("../config");
 
-const login = () => {};
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (email && password) {
+    User.findOne({ email }).then(user => {
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+        if (isMatch) {
+          return res.json({
+            msg: "user successfully logged in",
+            user: {
+              _id: user._id,
+              first_name: user.first_name,
+              email: user.email
+            }
+          });
+        } else {
+          return res.json({ error: "password incorrect" });
+        }
+      });
+    });
+  } else {
+    res.json({ error: "invalid email" });
+  }
+};
 
 const logout = () => {};
 
@@ -13,7 +35,6 @@ const signup = async (req, res) => {
 
   if (first_name && last_name && password && confirm && email) {
     if (validator.isEmail(email, [{ domain_specific_validation: true }])) {
-
       if (await User.exists({ email })) {
         return res.json({ error: "user already exists. Try loggin in." });
       }

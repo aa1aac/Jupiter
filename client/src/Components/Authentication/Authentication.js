@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
 import "./Authentication.css";
+import * as actions from "../../store/actions/user/user";
 
-const Authentication = () => {
+const Authentication = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [first_name, setFirst_name] = useState("");
@@ -11,46 +13,33 @@ const Authentication = () => {
   const [confirm, setConfirm] = useState("");
   const [isSignup, setIsSignup] = useState(false);
 
-  const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
   const onSignup = async e => {
     e.preventDefault();
 
     if (email && password && first_name && last_name && confirm) {
-      setErrorMessage("");
-      setMessage("");
-      const res = await axios.post("/api/user/signup", {
-        email,
-        password,
-        first_name,
-        last_name,
-        confirm
-      });
+     
+      
+    //  carry out signup todo
 
-      if (res.data.msg) setMessage(res.data.msg);
-
-      if (res.data.error) setErrorMessage(res.data.error);
+      
 
       // console.log(res.data);
-    } else {
-      setErrorMessage("None of the fields can be empty");
-    }
+    } 
   };
 
   const onLogin = async e => {
     e.preventDefault();
 
-    setMessage("");
-    setErrorMessage("");
+    props.loginUser(email, password);
 
-    const res = await axios.post("/api/user/login", { email, password });
+    // setMessage("");
+    // setErrorMessage("");
+
+    // const res = await axios.post("/api/user/login", { email, password });
   };
 
   return (
     <div className="auth_box">
-      <div className="message">{!message ? null : message} </div>
-      <div className="error">{!errorMessage ? null : errorMessage} </div>
       <div className="auth_nav">
         <button
           className={"items " + !isSignup}
@@ -145,4 +134,4 @@ const Authentication = () => {
   );
 };
 
-export default Authentication;
+export default connect(null, actions)(Authentication);
