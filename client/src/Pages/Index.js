@@ -9,10 +9,10 @@ const Index = () => {
   return (
     <div>
       <img src={IndexImage} alt="index" className="index" />
-      
       <div className="wrapper">
         <div className="grid1">
           <h1>Jupiter</h1>
+          
         </div>
 
         <div className="grid2">
@@ -22,5 +22,5 @@ const Index = () => {
     </div>
   );
 };
- 
+
 export default Index;

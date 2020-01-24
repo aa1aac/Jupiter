@@ -3,13 +3,11 @@
   padding: 20px;
   color: aliceblue;
   margin-top: 30px;
-  /* display: flex; */
 }
 
 .auth_input {
   background-color: black;
-  width: 90%;
-
+  width: 100%;
   margin-bottom: 20px;
   margin-top: 20px;
   color: aliceblue;
@@ -43,10 +41,4 @@
   background-color: blue;
 }
 
-.error {
-  color: red;
-}
 
-.message {
-  color: greenyellow;
-}

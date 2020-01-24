@@ -1,56 +1,16 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 import "./Authentication.css";
 
 const Authentication = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [first_name, setFirst_name] = useState("");
-  const [last_name, setLast_name] = useState("");
+  const [name, setName] = useState("");
   const [confirm, setConfirm] = useState("");
   const [isSignup, setIsSignup] = useState(false);
 
-  const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const onSignup = async e => {
-    e.preventDefault();
-
-    if (email && password && first_name && last_name && confirm) {
-      setErrorMessage("");
-      setMessage("");
-      const res = await axios.post("/api/user/signup", {
-        email,
-        password,
-        first_name,
-        last_name,
-        confirm
-      });
-
-      if (res.data.msg) setMessage(res.data.msg);
-
-      if (res.data.error) setErrorMessage(res.data.error);
-
-      // console.log(res.data);
-    } else {
-      setErrorMessage("None of the fields can be empty");
-    }
-  };
-
-  const onLogin = async e => {
-    e.preventDefault();
-
-    setMessage("");
-    setErrorMessage("");
-
-    const res = await axios.post("/api/user/login", { email, password });
-  };
-
   return (
     <div className="auth_box">
-      <div className="message">{!message ? null : message} </div>
-      <div className="error">{!errorMessage ? null : errorMessage} </div>
       <div className="auth_nav">
         <button
           className={"items " + !isSignup}
@@ -72,73 +32,47 @@ const Authentication = () => {
       </div>
       <form className="auth_form">
         {isSignup ? (
-          <label htmlFor="first_name">
+          <label for="name">
             <input
               type="text"
-              placeholder="first name"
+              placeholder="name"
               className="auth_input"
               required
-              value={first_name}
-              onChange={e => setFirst_name(e.target.value)}
             />
           </label>
         ) : null}
 
-        {isSignup ? (
-          <label htmlFor="Last Name">
-            <input
-              type="text"
-              placeholder="Last Name"
-              className="auth_input"
-              required
-              value={last_name}
-              onChange={e => setLast_name(e.target.value)}
-            />
-          </label>
-        ) : null}
-
-        <label htmlFor="email">
+        <label for="email">
           <input
             type="email"
             placeholder="email"
             className="auth_input"
             required
-            value={email}
-            onChange={e => setEmail(e.target.value)}
           />
         </label>
-        <label htmlFor="password">
+        <label for="password">
           <input
             type="password"
             placeholder="password"
             className="auth_input"
-            required
-            value={password}
-            onChange={e => setPassword(e.target.value)}
           />
         </label>
 
         {isSignup ? (
-          <label htmlFor="confirm">
+          <label for="confirm">
             <input
               type="password"
               placeholder="confirm password"
               className="auth_input"
               required
-              value={confirm}
-              onChange={e => setConfirm(e.target.value)}
             />
           </label>
         ) : null}
-
+        
         {isSignup ? (
-          <button className="submit" onClick={onSignup}>
-            Signup
-          </button>
+          <button className="submit">Signup</button>
         ) : (
-          <button className="submit" onClick={onLogin}>
-            Login
-          </button>
+          <button className="submit">Login</button>
         )}
       </form>
     </div>
