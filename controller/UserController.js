@@ -1,7 +1,9 @@
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/Users");
+const config = require("../config");
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -10,6 +12,11 @@ const login = async (req, res) => {
     User.findOne({ email }).then(user => {
       bcrypt.compare(password, user.password, (err, isMatch) => {
         if (isMatch) {
+          res.setHeader(
+            "x-auth",
+            jwt.sign({ data: user._id }, config.SECRET, { expiresIn: "24h" })
+          );
+          
           return res.json({
             msg: "user successfully logged in",
             user: {
@@ -17,6 +24,7 @@ const login = async (req, res) => {
               first_name: user.first_name,
               email: user.email
             }
+
           });
         } else {
           return res.json({ error: "password incorrect" });

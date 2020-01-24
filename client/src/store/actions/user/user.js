@@ -14,7 +14,8 @@ export const loginUser = (email, password) => async dispatch => {
 
   console.log(LOGIN_USER, res.data);
 
-  dispatch({ type: LOGIN_USER, payload: res.data });
+  dispatch({ type: LOGIN_USER, payload: res.data.user });
+
   //   todo message
 };
 
