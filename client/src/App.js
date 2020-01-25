@@ -1,25 +1,40 @@
-import React from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import reduxThunk from "redux-thunk";
+import { connect } from "react-redux";
 
 import Index from "./Pages/Index";
-import reducers from "./store/reducers";
+import Home from "./Pages/Home";
+import PrivateRoute from "./utils/PrivateRoute";
+import NonPrivateRoute from "./utils/NonPrivateRoute";
+
 import "./App.css";
 
-const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Router>
+          <Switch>
+            {this.props.user ? (
+              <div>
+                <Route component={Home} path="/" exact />
+              </div>
+            ) : (
+              <div>
+                <Route component={Index} path="/" />
+              </div>
+            )}
+          </Switch>
+        </Router>
+      </div>
+    );
+  }
+}
 
-const App = () => {
-  return (
-    <Provider store={store}>
-      <Router>
-        <Switch>
-          <Route path="/" exact component={Index} />
-        </Switch>
-      </Router>
-    </Provider>
-  );
+const mapStatetoProps = state => {
+  return {
+    user: state.user._id
+  };
 };
 
-export default App;
+export default connect(mapStatetoProps)(App);

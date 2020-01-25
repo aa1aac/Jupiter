@@ -1,13 +1,23 @@
-import { GET_USER, LOGOUT_USER } from "../types";
+import { GET_USER, LOGOUT_USER, LOGIN_USER } from "../types";
 
-export default (state = {}, action) => {
+const initialState = {
+  _id: null,
+  email: null,
+  first_name: null
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case GET_USER:
-      return {...state,
-        user: action.payload
+    case LOGIN_USER:
+      return {
+        ...state,
+        _id: action.payload._id,
+        first_name: action.payload.first_name,
+        email: action.payload.email
       };
     case LOGOUT_USER:
-      return {};
+      return initialState;
     default:
       return state;
   }

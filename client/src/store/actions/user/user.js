@@ -3,9 +3,8 @@ import axios from "axios";
 import { GET_USER, LOGOUT_USER, LOGIN_USER } from "../../types";
 
 export const getUser = () => async dispatch => {
-  const res = axios.get("/api/user");
+  const res = await axios.get("/api/user");
 
-  console.log(GET_USER, res.data);
   dispatch({ type: GET_USER, payload: res.data.user });
 };
 
@@ -14,7 +13,7 @@ export const loginUser = (email, password) => async dispatch => {
 
   console.log(LOGIN_USER, res.data);
 
-  dispatch({ type: LOGIN_USER, payload: res.data });
+  dispatch({ type: LOGIN_USER, payload: res.data.user });
   //   todo message
 };
 

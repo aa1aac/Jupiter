@@ -1,7 +1,9 @@
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const User = require("../models/Users");
+const config = require("../config");
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -10,6 +12,14 @@ const login = async (req, res) => {
     User.findOne({ email }).then(user => {
       bcrypt.compare(password, user.password, (err, isMatch) => {
         if (isMatch) {
+          // set up a cookie
+          res.cookie(
+            "token",
+            jwt.sign({ user: user._id }, config.SECRET, { expiresIn: "1h" }),
+            { maxAge: 86400 * 1000 }
+          );
+
+          // send user data
           return res.json({
             msg: "user successfully logged in",
             user: {
@@ -32,8 +42,6 @@ const logout = () => {};
 
 const signup = async (req, res) => {
   const { first_name, last_name, password, confirm, email } = req.body;
-
- 
 
   if (first_name && last_name && password && confirm && email) {
     if (validator.isEmail(email, [{ domain_specific_validation: true }])) {
@@ -70,4 +78,16 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = { login, logout, signup };
+const getUser = (req, res) => {
+  console.log(req.payload);
+
+  User.findById(req.payload.user, "first_name _id email").then(user => {
+    if(!user._id){
+      return res.json({error:'invalid token request'})
+    }
+
+    return res.json({ user });
+  });
+};
+
+module.exports = { login, logout, signup, getUser };

@@ -17,11 +17,7 @@ const Authentication = props => {
     e.preventDefault();
 
     if (email && password && first_name && last_name && confirm) {
-      
       props.signupUser(first_name, last_name, email, password, confirm);
-      //  carry out signup todo
-
-      // console.log(res.data);
     }
   };
 
@@ -29,11 +25,6 @@ const Authentication = props => {
     e.preventDefault();
 
     props.loginUser(email, password);
-
-    // setMessage("");
-    // setErrorMessage("");
-
-    // const res = await axios.post("/api/user/login", { email, password });
   };
 
   return (
@@ -133,3 +124,4 @@ const Authentication = props => {
 };
 
 export default connect(null, actions)(Authentication);
+// export default Authentication;
