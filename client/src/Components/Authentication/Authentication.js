@@ -17,14 +17,12 @@ const Authentication = props => {
     e.preventDefault();
 
     if (email && password && first_name && last_name && confirm) {
-     
       
-    //  carry out signup todo
-
-      
+      props.signupUser(first_name, last_name, email, password, confirm);
+      //  carry out signup todo
 
       // console.log(res.data);
-    } 
+    }
   };
 
   const onLogin = async e => {

@@ -1,9 +1,7 @@
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 const User = require("../models/Users");
-const config = require("../config");
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -12,11 +10,6 @@ const login = async (req, res) => {
     User.findOne({ email }).then(user => {
       bcrypt.compare(password, user.password, (err, isMatch) => {
         if (isMatch) {
-          res.setHeader(
-            "x-auth",
-            jwt.sign({ data: user._id }, config.SECRET, { expiresIn: "24h" })
-          );
-          
           return res.json({
             msg: "user successfully logged in",
             user: {
@@ -24,7 +17,6 @@ const login = async (req, res) => {
               first_name: user.first_name,
               email: user.email
             }
-
           });
         } else {
           return res.json({ error: "password incorrect" });
@@ -40,6 +32,8 @@ const logout = () => {};
 
 const signup = async (req, res) => {
   const { first_name, last_name, password, confirm, email } = req.body;
+
+ 
 
   if (first_name && last_name && password && confirm && email) {
     if (validator.isEmail(email, [{ domain_specific_validation: true }])) {

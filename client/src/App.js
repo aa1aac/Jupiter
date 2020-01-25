@@ -1,21 +1,24 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { connect } from "react-redux";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import reduxThunk from "redux-thunk";
 
 import Index from "./Pages/Index";
-import Home from "./Pages/Home";
-import PrivateRoute from "./utils/PrivateRoute";
-
+import reducers from "./store/reducers";
 import "./App.css";
 
-const App = props => {
+const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
+
+const App = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Index} />
-        <PrivateRoute path="/home" exact component={Home} />
-      </Switch>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Index} />
+        </Switch>
+      </Router>
+    </Provider>
   );
 };
 

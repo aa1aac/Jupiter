@@ -14,19 +14,18 @@ export const loginUser = (email, password) => async dispatch => {
 
   console.log(LOGIN_USER, res.data);
 
-  dispatch({ type: LOGIN_USER, payload: res.data.user });
-
+  dispatch({ type: LOGIN_USER, payload: res.data });
   //   todo message
 };
 
-export const signupUser = async (
+export const signupUser = (
   first_name,
   last_name,
   email,
   password,
   confirm
-) => {
-  const res = axios.post("/api/user/signup", {
+) => async () => {
+  const res = await axios.post("/api/user/signup", {
     first_name,
     last_name,
     email,
@@ -34,6 +33,7 @@ export const signupUser = async (
     confirm
   });
 
+  console.log(res.data);
   // todo message
 };
 
