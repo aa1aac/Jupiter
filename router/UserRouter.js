@@ -6,19 +6,19 @@ const isAuth = require("../middleware/isAuth");
 const router = express.Router();
 
 // PUBLIC
-// /user/login
+// /api/user/login
 router.post("/login", UserController.login);
 
 // PRIVATE
-// /user/logout
+// /api/user/logout
 router.get("/logout", isAuth, UserController.logout);
 
 // PUBLIC
-// /user/signup
+// /api/user/signup
 router.post("/signup", UserController.signup);
 
 // PRIVATE
-// /user/
+// /api/user/
 router.get("/", isAuth, UserController.getUser);
 
 module.exports = router;

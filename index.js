@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 
 const UserRouter = require("./router/UserRouter");
+const PostRouter = require("./router/PostRouter");
 const config = require("./config");
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 
 // routing
 app.use("/api/user/", UserRouter);
+app.use('/api/posts', PostRouter)
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("public/build"));

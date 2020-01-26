@@ -10,14 +10,13 @@ const login = async (req, res) => {
 
   if (email && password) {
     User.findOne({ email }).then(user => {
-      console.log(Boolean(user));
       if (user) {
         bcrypt.compare(password, user.password, (err, isMatch) => {
           if (isMatch) {
             // set up a cookie
             res.cookie(
               "token",
-              jwt.sign({ user: user._id }, config.SECRET, { expiresIn: "1h" }),
+              jwt.sign({ user: user._id }, config.SECRET, { expiresIn: "24h" }),
               { maxAge: 86400 * 1000 }
             );
 
