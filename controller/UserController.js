@@ -10,31 +10,36 @@ const login = async (req, res) => {
 
   if (email && password) {
     User.findOne({ email }).then(user => {
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (isMatch) {
-          // set up a cookie
-          res.cookie(
-            "token",
-            jwt.sign({ user: user._id }, config.SECRET, { expiresIn: "1h" }),
-            { maxAge: 86400 * 1000 }
-          );
+      console.log(Boolean(user));
+      if (user) {
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (isMatch) {
+            // set up a cookie
+            res.cookie(
+              "token",
+              jwt.sign({ user: user._id }, config.SECRET, { expiresIn: "1h" }),
+              { maxAge: 86400 * 1000 }
+            );
 
-          // send user data
-          return res.json({
-            msg: "user successfully logged in",
-            user: {
-              _id: user._id,
-              first_name: user.first_name,
-              email: user.email
-            }
-          });
-        } else {
-          return res.json({ error: "password incorrect" });
-        }
-      });
+            // send user data
+            return res.json({
+              msg: "user successfully logged in",
+              user: {
+                _id: user._id,
+                first_name: user.first_name,
+                email: user.email
+              }
+            });
+          } else {
+            return res.json({ error: "password incorrect" });
+          }
+        });
+      } else {
+        res.json({ error: "no such user found" });
+      }
     });
   } else {
-    res.json({ error: "invalid email" });
+    return res.json({ error: "invalid value" });
   }
 };
 
@@ -82,8 +87,8 @@ const getUser = (req, res) => {
   console.log(req.payload);
 
   User.findById(req.payload.user, "first_name _id email").then(user => {
-    if(!user._id){
-      return res.json({error:'invalid token request'})
+    if (!user._id) {
+      return res.json({ error: "invalid token request" });
     }
 
     return res.json({ user });

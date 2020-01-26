@@ -23,10 +23,10 @@ const Authentication = props => {
 
   const onLogin = async e => {
     e.preventDefault();
-       if(email && password){
-        props.loginUser(email, password);
-       }
-    
+    console.log(email, password);
+    if (email && password) {
+      props.loginUser(email, password);
+    }
   };
 
   return (

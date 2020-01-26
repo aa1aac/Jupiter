@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 import { GET_USER, LOGOUT_USER, LOGIN_USER } from "../../types";
 
@@ -13,8 +14,15 @@ export const loginUser = (email, password) => async dispatch => {
 
   console.log(LOGIN_USER, res.data);
 
-  dispatch({ type: LOGIN_USER, payload: res.data.user });
-  //   todo message
+  if (res.data.error) {
+    return toast.error(res.data.error);
+  }
+
+  if (res.data.msg) {
+    toast.success(res.data.msg);
+
+    dispatch({ type: LOGIN_USER, payload: res.data.user });
+  }
 };
 
 export const signupUser = (
@@ -33,7 +41,14 @@ export const signupUser = (
   });
 
   console.log(res.data);
-  // todo message
+  
+  if (res.data.error) {
+    toast.error(res.data.error);
+  }
+
+  if (res.data.msg) {
+    toast.success(res.data.msg);
+  }
 };
 
 export const logoutUser = () => {};

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 import Index from "./Pages/Index";
 import Home from "./Pages/Home";
@@ -13,6 +15,8 @@ class App extends Component {
     return (
       <div>
         <Router>
+          <ToastContainer autoClose={5000} />
+
           <Switch>
             {this.props.user._id ? (
               <div>

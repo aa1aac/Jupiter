@@ -12,7 +12,7 @@ const Navbar = props => {
         <Link className={pathname === "/" ? "active" : null} to="/">
           <i className="material-icons">home</i>
         </Link>
-
+ 
         <Link
           to="/message"
           className={pathname === "/message" ? "active" : null}
