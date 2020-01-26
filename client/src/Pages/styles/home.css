@@ -1,0 +1,51 @@
+.home {
+  display: grid;
+  grid-template-columns: 0fr 1fr 0fr;
+}
+
+.bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: blue;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-family: cursive, Arial, Helvetica, sans-serif;
+  color: #f7f6fd;
+}
+
+.content {
+  background-color: rgb(255, 255, 255);
+  display: relative;
+  padding-top: 60px;
+}
+
+.text {
+  outline: none;
+  border: none;
+  overflow: auto;
+  background-color: inherit;
+  font-size: 20px;
+  width: 95%;
+  height: 200px;
+  resize: none;
+}
+
+.share {
+  background-color: #2705e7;
+  border: none;
+  border-radius: 50px;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  margin: 5px;
+
+}
+
+@media screen and (min-width: 748px) {
+  .home {
+    grid-template-columns: 1fr 4fr 1fr;
+  }
+}

@@ -4,8 +4,7 @@ import { connect } from "react-redux";
 
 import Index from "./Pages/Index";
 import Home from "./Pages/Home";
-import PrivateRoute from "./utils/PrivateRoute";
-import NonPrivateRoute from "./utils/NonPrivateRoute";
+import Navbar from "./Components/Navbar/Navbar";
 
 import "./App.css";
 
@@ -15,9 +14,14 @@ class App extends Component {
       <div>
         <Router>
           <Switch>
-            {this.props.user ? (
+            {this.props.user._id ? (
               <div>
-                <Route component={Home} path="/" exact />
+                <Navbar />
+                <Route
+                  render={() => <Home userName={this.props.user.first_name} />}
+                  path="/"
+                  exact
+                />
               </div>
             ) : (
               <div>
@@ -33,7 +37,7 @@ class App extends Component {
 
 const mapStatetoProps = state => {
   return {
-    user: state.user._id
+    user: state.user
   };
 };
 
