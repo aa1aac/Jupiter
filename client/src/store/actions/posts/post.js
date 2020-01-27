@@ -7,7 +7,11 @@ export const post = text => async dispatch => {
 
   const res = await axios.post("/api/posts/", { text: newTexts });
 
-  console.log(POST, res.data);
+  dispatch({ type: POST, payload: res.data.post });
 };
 
-export const getPost = () => async dispatch => {};
+export const getPost = () => async dispatch => {
+  const res = await axios.get("/api/posts/");
+  console.log(res.data.posts);
+  dispatch({ type: GET_POST, payload: res.data.posts });
+};

@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import Post from "../Components/Post/Post";
 
 import * as postAction from "../store/actions/posts/post";
 import "./styles/home.css";
 
-const Home = props => {
-  const [text, setText] = useState("");
+class Home extends React.Component {
+  state = {
+    text: ""
+  };
 
-  const onShare = () => {
-    if (text) {
+  componentDidMount() {
+    this.props.getPost();
+  }
+
+  onShare = () => {
+    if (this.state.text) {
       try {
-        props.post(text);
-        setText("");
+        this.props.post(this.state.text);
+
+        this.setState({ ...this.state, text: "" });
+
         // toast.success("Successfully posted");
       } catch (error) {
         toast.error("Oops! Some error occured posting.");
@@ -20,30 +29,53 @@ const Home = props => {
     }
   };
 
-  return (
-    <div>
-      <div className="bar">hi! {props.userName}. Welcome</div>
-      <div className="home">
-        <div />
-        <div className="content">
-          <textarea
-            value={text}
-            onChange={e => setText(e.target.value)}
-            type="text"
-            className="text"
-            placeholder="Share your ideas here."
-          ></textarea>
+  render() {
+    return (
+      <div>
+        <div className="home">
+          <div />
+          <div className="content">
+            <textarea
+              value={this.state.text}
+              onChange={e =>
+                this.setState({ ...this.state, text: e.target.value })
+              }
+              type="text"
+              className="text"
+              placeholder="Share your ideas here."
+            ></textarea>
 
-          <button className="share" onClick={onShare}>
-            {" "}
-            Share <i className="material-icons">send</i>
-          </button>
+            <button className="share" onClick={this.onShare}>
+              {" "}
+              Share <i className="material-icons">send</i>
+            </button>
+
+            {this.props.posts
+              ? this.props.posts.map((value, index, array) => {
+                  return (
+                    <Post
+                      className="postContainer"
+                      key={index}
+                      text={value.text}
+                      date={value.date}
+                      user={value._user}
+                    />
+                  );
+                })
+              : null}
+          </div>
+
+          <div />
         </div>
-
-        <div />
       </div>
-    </div>
-  );
+    );
+  }
+}
+
+const mapStatetoProps = state => {
+  return {
+    posts: state.posts
+  };
 };
 
-export default connect(null, postAction)(Home);
+export default connect(mapStatetoProps, postAction)(Home);

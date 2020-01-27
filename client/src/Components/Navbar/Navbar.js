@@ -34,12 +34,7 @@ const Navbar = props => {
           <i className="material-icons">people_outline</i>
         </Link>
 
-        <Link
-          to="/notification"
-          className={pathname === "/notification" ? "active" : null}
-        >
-          <i className="material-icons">notifications_active</i>
-        </Link>
+
       </nav>
     </div>
   );

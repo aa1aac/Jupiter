@@ -3,19 +3,7 @@
   grid-template-columns: 0fr 1fr 0fr;
 }
 
-.bar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  background-color: blue;
-  width: 100%;
-  overflow: hidden;
-  text-align: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  font-family: cursive, Arial, Helvetica, sans-serif;
-  color: #f7f6fd;
-}
+
 
 .content {
   background-color: rgb(255, 255, 255);
@@ -41,11 +29,14 @@
   color: rgb(255, 255, 255);
   padding: 10px;
   margin: 5px;
-
 }
 
 @media screen and (min-width: 748px) {
   .home {
     grid-template-columns: 1fr 4fr 1fr;
   }
+}
+
+.postContainer {
+  margin-bottom: 20px;
 }

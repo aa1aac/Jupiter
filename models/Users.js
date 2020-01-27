@@ -8,16 +8,8 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   bio: { type: String },
-  folowers: [
-    {
-      followerId: { type: mongoose.Schema.Types.ObjectId, ref: "user" }
-    }
-  ],
-  folowing: [
-    {
-      followingId: { type: mongoose.Schema.Types.ObjectId, ref: "user" }
-    }
-  ],
+  folowers: [],
+  following: [],
   gender: { type: String, default: "" },
   address: { type: String, default: "" },
   groups: [{ groupId: { type: mongoose.Schema.Types.ObjectId, ref: "Group" } }],
