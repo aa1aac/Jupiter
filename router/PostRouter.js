@@ -4,12 +4,10 @@ const PostController = require("../controller/PostController");
 
 const router = express.Router();
 
-// todo
 // /api/posts
 // PRIVATE   GET
 router.get("/", isAuth, PostController.getPosts);
 
-// todo
 // /api/posts/
 // PRIVATE  POST
 router.post("/", isAuth, PostController.postPosts);
@@ -28,5 +26,19 @@ router.delete("/:id", isAuth, PostController.deletePost);
 // /api/posts/specific/:id
 // PRIVATE     GET
 router.get("/specific/:id", isAuth, PostController.getSpecificPost);
+
+// /api/posts/:id/like
+// PRIVATE GET
+router.get("/:id/like", isAuth, PostController.likePost);
+
+// todo
+// /api/posts/:id/comment
+// PRIVATE POST
+router.post("/:id/comment", isAuth, PostController.postComment);
+
+// todo
+// /api/posts/:id/comment
+// PRIVATE GET
+router.get("/:id/comment", isAuth, PostController.getComment);
 
 module.exports = router;

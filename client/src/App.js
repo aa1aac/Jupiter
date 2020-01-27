@@ -22,7 +22,7 @@ class App extends Component {
               <div>
                 <Navbar />
                 <Route
-                  render={() => <Home userName={this.props.user.first_name} />}
+                  render={() => <Home userId={this.props.user._id} />}
                   path="/"
                   exact
                 />

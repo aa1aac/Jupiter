@@ -54,11 +54,18 @@ class Home extends React.Component {
               ? this.props.posts.map((value, index, array) => {
                   return (
                     <Post
+                      userId={this.props.userId}
                       className="postContainer"
                       key={index}
+                      index={index}
                       text={value.text}
                       date={value.date}
                       user={value._user}
+                      first_name={value.first_name}
+                      last_name={value.last_name}
+                      post_id={value._id}
+                      likes={value.likes}
+                      comments={value.comments}
                     />
                   );
                 })

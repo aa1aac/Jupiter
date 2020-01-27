@@ -11,7 +11,7 @@
 
 .postContent {
   font-family: cursive, Arial, Helvetica, sans-serif;
-  font-size: 25px;
+  font-size: 20px;
   margin-top: 10px;
 }
 
@@ -31,4 +31,36 @@
   outline: none;
   border: none;
   background-color: inherit;
+}
+
+.postBar button:hover {
+  cursor: pointer;
+}
+
+.badge {
+  background-color: black;
+  padding: 10px;
+  margin-left: 5px;
+  border-radius: 10px;
+  color: aliceblue;
+}
+
+.liked {
+  color: #071cda;
+}
+
+button.active {
+  background-color: #1004c5;
+  color: aliceblue;
+}
+
+.commentBox {
+  outline: none;
+  border: none;
+  overflow: auto;
+  background-color: inherit;
+  font-size: 19px;
+  width: 95%;
+  height: 150px;
+  resize: none;
 }
