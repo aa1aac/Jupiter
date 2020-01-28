@@ -1,0 +1,18 @@
+.profile {
+  display: grid;
+  margin-top: 58px;
+  grid-template-columns: 0fr 1fr 0fr;
+  
+}
+
+@media screen and (min-width: 748px) {
+  .profile {
+    grid-template-columns: 1fr 4fr 1fr;
+  }
+}
+
+.profile .profileLead {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 150px;
+}

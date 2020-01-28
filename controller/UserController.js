@@ -94,4 +94,13 @@ const getUser = (req, res) => {
   });
 };
 
-module.exports = { login, logout, signup, getUser };
+const getProfile = (req, res) => {
+  User.findById(req.payload.user, "-password").then(user => {
+
+    if (!user) return res.json({ error: "no such user found" });
+    
+    res.json({ msg: "profile fetched", user });
+  });
+};
+
+module.exports = { login, logout, signup, getUser, getProfile };

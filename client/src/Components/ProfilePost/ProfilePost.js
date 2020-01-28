@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import "./Post.css";
+import "./ProfilePost.css";
 import * as PostAction from "../../store/actions/posts/post";
 
-const Post = props => {
+const ProfilePost = props => {
   useEffect(() => {
     fetchComments();
   }, []);
@@ -16,6 +16,8 @@ const Post = props => {
   const [isCommentTrigger, setIsCommentTrigger] = useState(false);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+  const [text, setText] = useState(props.text.join("\n"));
+  const [isEditTrigger, setIsEditTrigger] = useState(false);
 
   const fetchComments = async () => {
     const res = await axios.get(`/api/posts/${props.post_id}/comment`);
@@ -25,12 +27,12 @@ const Post = props => {
     setComments([...res.data.comments]);
   };
 
-  const onLike = () => {
-    props.likePost(props.post_id, props.index);
-  };
-
   const onCommentTrigger = () => {
     isCommentTrigger ? setIsCommentTrigger(false) : setIsCommentTrigger(true);
+  };
+
+  const onEditTrigger = () => {
+    isEditTrigger ? setIsEditTrigger(false) : setIsEditTrigger(true);
   };
 
   const postComment = async () => {
@@ -49,6 +51,8 @@ const Post = props => {
     }
   };
 
+  const onEditPost = async () => {};
+
   return (
     <div className="post">
       <div className="bold">
@@ -66,19 +70,17 @@ const Post = props => {
           </div>
         ))}
       </div>
+      <br />
+      <em className="likes">
+        Likes : <span className="badge">{props.likes.length}</span>
+      </em>
+      <br />
       <div className="postBar">
-        <button onClick={onLike}>
-          <i
-            className={
-              props.likes.includes(props.userId)
-                ? "material-icons liked"
-                : "material-icons"
-            }
-          >
-            thumb_up_alt
-          </i>
-
-          <span className="badge">{props.likes.length}</span>
+        <button
+          onClick={onEditTrigger}
+          className={isEditTrigger ? "active" : null}
+        >
+          Edit
         </button>
 
         <button
@@ -104,12 +106,28 @@ const Post = props => {
           <button className="share" onClick={postComment}>
             Comment <i className="material-icons">send</i>
           </button>
-          <h3>Comments</h3>
+          {comments.length ? <h3>Comments</h3> : null}
+
           {comments
             ? comments.map((value, index) => (
                 <Comment value={value} key={index} />
               ))
             : null}
+        </div>
+      ) : null}
+
+      {isEditTrigger ? (
+        <div className="editPost">
+          <h3>Edit here</h3>
+          <textarea
+            className="commentBox"
+            value={text}
+            onChange={e => setText(e.target.value)}
+          ></textarea>
+
+          <button className="share" onClick={onEditPost}>
+            Edit <i className="material-icons">send</i>
+          </button>
         </div>
       ) : null}
     </div>
@@ -128,4 +146,5 @@ const Comment = props => {
   );
 };
 
-export default connect(null, PostAction)(Post);
+// export default connect(null, PostAction)(Post);
+export default ProfilePost;

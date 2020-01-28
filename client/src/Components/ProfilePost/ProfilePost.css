@@ -77,3 +77,7 @@ button.active {
 .comment {
   padding: 5px;
 }
+
+.editPost {
+  margin-top: 10px;
+}

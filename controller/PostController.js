@@ -63,7 +63,7 @@ const postComment = (req, res) => {
     if (!user) return res.json({ error: "no users found" });
 
     Post.findById(req.params.id).then(post => {
-      if (!post) return res.json({ error: "nod such post exists" });
+      if (!post) return res.json({ error: "no such post exists" });
 
       let comment = new Comment({
         _user: user._id,
@@ -74,7 +74,10 @@ const postComment = (req, res) => {
       });
 
       comment.save().then(comment => {
-        res.json({ msg: "comment posted", comment });
+        post.comments += 1;
+        post.save().then(() => {
+          res.json({ msg: "comment posted", comment });
+        });
       });
     });
   });
@@ -96,7 +99,17 @@ const deletePost = (req, res) => {};
 
 const getSpecificPost = (req, res) => {};
 
-const getProfilePosts = (req, res) => {};
+const getProfilePosts = (req, res) => {
+
+  User.findById(req.payload.user).then( user =>{
+      if(!user) return res.json({error:'invalid user request'})
+
+      Post.find({_user:user._id}).limit(5).then(posts =>{
+        res.json({msg:'posts successfully fetched',posts})
+      })
+  })
+  
+};
 
 module.exports = {
   getPosts,

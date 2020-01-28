@@ -31,14 +31,18 @@ router.get("/specific/:id", isAuth, PostController.getSpecificPost);
 // PRIVATE GET
 router.get("/:id/like", isAuth, PostController.likePost);
 
-// todo
+
 // /api/posts/:id/comment
 // PRIVATE POST
 router.post("/:id/comment", isAuth, PostController.postComment);
 
-// todo
+
 // /api/posts/:id/comment
 // PRIVATE GET
 router.get("/:id/comment", isAuth, PostController.getComment);
+
+// /api/posts/profile-specific
+// PRIVATE GET
+router.get("/profile-specific", isAuth, PostController.getProfilePosts);
 
 module.exports = router;

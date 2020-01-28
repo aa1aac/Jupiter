@@ -21,4 +21,8 @@ router.post("/signup", UserController.signup);
 // /api/user/
 router.get("/", isAuth, UserController.getUser);
 
+// PRIVATE
+// /api/user/profile
+router.get("/profile", isAuth, UserController.getProfile);
+
 module.exports = router;

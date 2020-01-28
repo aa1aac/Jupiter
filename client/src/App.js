@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 
 import Index from "./Pages/Index";
 import Home from "./Pages/Home";
+import Profile from "./Pages/Profile";
 import Navbar from "./Components/Navbar/Navbar";
 
 import "./App.css";
@@ -26,6 +27,8 @@ class App extends Component {
                   path="/"
                   exact
                 />
+
+                <Route exact render={() => <Profile userId={this.props.user._id} />} path="/profile" />
               </div>
             ) : (
               <div>
