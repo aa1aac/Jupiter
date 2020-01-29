@@ -25,4 +25,8 @@ router.get("/", isAuth, UserController.getUser);
 // /api/user/profile
 router.get("/profile", isAuth, UserController.getProfile);
 
+// PRIVATE
+//  /api/user/edit
+router.put("/edit", isAuth, UserController.editProfile);
+
 module.exports = router;

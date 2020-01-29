@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 import "./ProfilePost.css";
-import * as PostAction from "../../store/actions/posts/post";
 
 const ProfilePost = props => {
   useEffect(() => {
@@ -16,8 +14,7 @@ const ProfilePost = props => {
   const [isCommentTrigger, setIsCommentTrigger] = useState(false);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
-  const [text, setText] = useState(props.text.join("\n"));
-  const [isEditTrigger, setIsEditTrigger] = useState(false);
+  const [onDeleteTrigger, setOnDeleteTrigger] = useState(false);
 
   const fetchComments = async () => {
     const res = await axios.get(`/api/posts/${props.post_id}/comment`);
@@ -29,10 +26,6 @@ const ProfilePost = props => {
 
   const onCommentTrigger = () => {
     isCommentTrigger ? setIsCommentTrigger(false) : setIsCommentTrigger(true);
-  };
-
-  const onEditTrigger = () => {
-    isEditTrigger ? setIsEditTrigger(false) : setIsEditTrigger(true);
   };
 
   const postComment = async () => {
@@ -51,7 +44,14 @@ const ProfilePost = props => {
     }
   };
 
-  const onEditPost = async () => {};
+  const onDeletePost = () => {
+    if (onDeleteTrigger) setOnDeleteTrigger(false);
+    if (!onDeleteTrigger) setOnDeleteTrigger(true);
+  };
+
+  const finalDeletePost = async () => {
+    props.deletePost(props.post_id, props.index);
+  };
 
   return (
     <div className="post">
@@ -77,10 +77,11 @@ const ProfilePost = props => {
       <br />
       <div className="postBar">
         <button
-          onClick={onEditTrigger}
-          className={isEditTrigger ? "active" : null}
+          onClick={onDeletePost}
+          className={onDeleteTrigger ? "active" : null}
         >
-          Edit
+          Delete
+          <i className="material-icons">delete_forever</i>
         </button>
 
         <button
@@ -94,6 +95,17 @@ const ProfilePost = props => {
           </span>
         </button>
       </div>
+
+      {onDeleteTrigger ? (
+        <div>
+          <h4>Are you Sure that you want to delete the post?</h4>
+
+          <button className="delete" onClick={finalDeletePost}>
+            {" "}
+            Yes! DELETE{" "}
+          </button>
+        </div>
+      ) : null}
 
       {isCommentTrigger ? (
         <div className="commentSection">
@@ -115,21 +127,6 @@ const ProfilePost = props => {
             : null}
         </div>
       ) : null}
-
-      {isEditTrigger ? (
-        <div className="editPost">
-          <h3>Edit here</h3>
-          <textarea
-            className="commentBox"
-            value={text}
-            onChange={e => setText(e.target.value)}
-          ></textarea>
-
-          <button className="share" onClick={onEditPost}>
-            Edit <i className="material-icons">send</i>
-          </button>
-        </div>
-      ) : null}
     </div>
   );
 };
@@ -146,5 +143,4 @@ const Comment = props => {
   );
 };
 
-// export default connect(null, PostAction)(Post);
 export default ProfilePost;

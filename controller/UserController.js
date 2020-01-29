@@ -42,7 +42,10 @@ const login = async (req, res) => {
   }
 };
 
-const logout = () => {};
+const logout = (req, res) => {
+  res.cookie("token", "", { maxAge: 1000 });
+  res.json({ msg: "user Logged out" });
+};
 
 const signup = async (req, res) => {
   const { first_name, last_name, password, confirm, email } = req.body;
@@ -96,11 +99,23 @@ const getUser = (req, res) => {
 
 const getProfile = (req, res) => {
   User.findById(req.payload.user, "-password").then(user => {
-
     if (!user) return res.json({ error: "no such user found" });
-    
+
     res.json({ msg: "profile fetched", user });
   });
 };
 
-module.exports = { login, logout, signup, getUser, getProfile };
+const editProfile = (req, res) => {
+  User.findById(req.payload.user).then(user => {
+    if (!user) return res.json({ error: "invalid request" });
+    const { bio } = req.body;
+
+    user.bio = bio;
+
+    user.save().then(user => {
+      res.json({ user, msg: "successfully edited" });
+    });
+  });
+};
+
+module.exports = { login, logout, signup, getUser, getProfile, editProfile };

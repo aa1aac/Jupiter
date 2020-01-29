@@ -41,7 +41,7 @@ export const signupUser = (
   });
 
   console.log(res.data);
-  
+
   if (res.data.error) {
     toast.error(res.data.error);
   }
@@ -51,4 +51,12 @@ export const signupUser = (
   }
 };
 
-export const logoutUser = () => {};
+export const logoutUser = () => async dispatch => {
+  try {
+    await axios.get("/api/user/logout");
+
+    dispatch({ type: LOGOUT_USER });
+  } catch (error) {
+    console.error(error);
+  }
+};

@@ -81,3 +81,28 @@ button.active {
 .editPost {
   margin-top: 10px;
 }
+
+.delete {
+  background-color: red;
+  padding: 10px;
+  outline: none;
+  border: 2px solid blue;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.logout {
+  width: 100%;
+  background-color: inherit;
+  outline: none;
+  border: 1px solid red;
+  border-radius: 20px;
+  margin-bottom: 5px;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.logout:hover {
+  background-color: red;
+  color: white;
+}

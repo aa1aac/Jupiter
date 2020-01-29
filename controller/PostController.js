@@ -93,30 +93,35 @@ const getComment = (req, res) => {
   });
 };
 
-const editPosts = (req, res) => {};
+const deletePost = (req, res) => {
+  User.findById(req.payload.user).then(user => {
+    if (!user) return res.json({ error: "unauthorized request" });
 
-const deletePost = (req, res) => {};
-
-const getSpecificPost = (req, res) => {};
+    Post.findOneAndDelete({ _id: req.params.id, _user: user._id }).then(
+      post => {
+        console.log(post);
+        res.json({ msg: "deleted", post });
+      }
+    );
+  });
+};
 
 const getProfilePosts = (req, res) => {
+  User.findById(req.payload.user).then(user => {
+    if (!user) return res.json({ error: "invalid user request" });
 
-  User.findById(req.payload.user).then( user =>{
-      if(!user) return res.json({error:'invalid user request'})
-
-      Post.find({_user:user._id}).limit(5).then(posts =>{
-        res.json({msg:'posts successfully fetched',posts})
-      })
-  })
-  
+    Post.find({ _user: user._id })
+      .limit(5)
+      .then(posts => {
+        res.json({ msg: "posts successfully fetched", posts });
+      });
+  });
 };
 
 module.exports = {
   getPosts,
   postPosts,
-  editPosts,
   deletePost,
-  getSpecificPost,
   getProfilePosts,
   likePost,
   postComment,

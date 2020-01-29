@@ -12,20 +12,10 @@ router.get("/", isAuth, PostController.getPosts);
 // PRIVATE  POST
 router.post("/", isAuth, PostController.postPosts);
 
-// todo
-// /api/posts/:id
-// PRIVATE    PUT
-router.put("/:id", isAuth, PostController.editPosts);
 
-// todo
 // /api/posts/:id
 // PRIVATE    DELETE
 router.delete("/:id", isAuth, PostController.deletePost);
-
-// todo
-// /api/posts/specific/:id
-// PRIVATE     GET
-router.get("/specific/:id", isAuth, PostController.getSpecificPost);
 
 // /api/posts/:id/like
 // PRIVATE GET
