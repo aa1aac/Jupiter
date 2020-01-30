@@ -8,6 +8,25 @@
   grid-template-columns: repeat(4, 1fr);
 }
 
+.followNav {
+  overflow: hidden;
+  padding: 20px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.followNav button {
+  outline: none;
+  background-color: inherit;
+  border: none;
+}
+
+.followNav button.active {
+  border-bottom: 4px solid black;
+  color: black;
+}
+
 .nav a {
   color: #f2f2f2;
   text-align: center;

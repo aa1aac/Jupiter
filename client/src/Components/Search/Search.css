@@ -1,0 +1,7 @@
+.searchBar {
+  width: 95%;
+  outline: none;
+  padding: 5px;
+  border: 2px solid blue;
+  border-radius: 20px;
+}

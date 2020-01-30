@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   bio: { type: String, default: "" },
-  folowers: [],
+  followers: [],
   following: [],
   groups: [{ groupId: { type: mongoose.Schema.Types.ObjectId, ref: "Group" } }],
   dateCreated: { default: Date.now, type: Date },

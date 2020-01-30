@@ -29,4 +29,12 @@ router.get("/profile", isAuth, UserController.getProfile);
 //  /api/user/edit
 router.put("/edit", isAuth, UserController.editProfile);
 
+// PRIVATE
+//  /api/user/followers
+router.get("/followers", isAuth, UserController.getFollowers);
+
+// PRIVATE
+//  /api/user/search
+router.post("/search", isAuth, UserController.searchUser);
+
 module.exports = router;

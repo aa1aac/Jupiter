@@ -118,4 +118,70 @@ const editProfile = (req, res) => {
   });
 };
 
-module.exports = { login, logout, signup, getUser, getProfile, editProfile };
+const getFollowers = (req, res) => {
+  User.findById(req.payload.user, " following followers").then(user => {
+    if (!user) res.json({ error: "no such user found" });
+    let followers = [];
+    let following = [];
+
+    let userFollowers = [];
+    let userFollowing = [];
+
+    user.followers.map(user => followers.push(user._user));
+    user.following.map(user => following.push(user._user));
+
+    User.find({ _id: { $in: followers } }, "first_name last_name _id")
+      .then(users => {
+        userFollowers = users;
+      })
+      .then(() => {
+        User.find({ _id: { $in: following } }, "first_name last_name _id")
+          .then(users => {
+            userFollowing = users;
+            // console.log(userFollowing);
+          })
+          .then(() => {
+            console.log("Followers", userFollowers, "following", userFollowing);
+
+            res.json({
+              msg: "fetched following data",
+              userFollowers,
+              userFollowing
+            });
+          });
+      });
+  });
+};
+
+const searchUser = (req, res) => {
+  let queryString = req.body.search;
+
+  User.find(
+    {
+      $and: [
+        { _id: { $ne: req.payload.user } },
+        {
+          $or: [
+            { first_name: { $regex: `^${queryString}.*`, $options: "i" } },
+            { last_name: { $regex: `^${queryString}.*`, $options: "i" } }
+          ]
+        }
+      ]
+    },
+    "first_name _id last_name"
+  ).then(users => {
+    console.log(users);
+    res.json({ msg: "user Successfully fetched", users });
+  });
+};
+
+module.exports = {
+  login,
+  logout,
+  signup,
+  getUser,
+  getProfile,
+  editProfile,
+  getFollowers,
+  searchUser
+};
