@@ -29,14 +29,24 @@ class App extends Component {
                   path="/"
                   exact
                 />
-                <Route component={Followers} exact path="/followers" />
+                <Route
+                  component={Followers}
+                  exact
+                  path="/followers"
+                  render={() => <Followers userId={this.props.user._id} />}
+                />
                 <Route
                   exact
                   render={() => <Profile userId={this.props.user._id} />}
                   path="/profile"
                 />
 
-                <Route exact component={UserProfile} path="/user/profile/:id" />
+                <Route 
+                exact 
+                
+                path="/user/profile/:id"
+                render={()=> <UserProfile userId={this.props.user._id} />}
+                />
               </div>
             ) : (
               <div>

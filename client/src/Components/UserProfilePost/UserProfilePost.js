@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 const UserProfilePost = props => {
   useEffect(() => {
     fetchComments();
@@ -13,7 +12,6 @@ const UserProfilePost = props => {
   const [isCommentTrigger, setIsCommentTrigger] = useState(false);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
-
 
   const fetchComments = async () => {
     const res = await axios.get(`/api/posts/${props.post_id}/comment`);
@@ -43,6 +41,10 @@ const UserProfilePost = props => {
     }
   };
 
+  const onLike = () => {
+    
+    props.onLike(props.post_id,props.index)
+  };
 
   return (
     <div className="post">
@@ -62,12 +64,24 @@ const UserProfilePost = props => {
         ))}
       </div>
       <br />
-      <em className="likes">
+      {/* <em className="likes">
         Likes : <span className="badge">{props.likes.length}</span>
-      </em>
+      </em> */}
       <br />
       <div className="postBar">
+        <button onClick={onLike}>
+          <i
+            className={
+              props.likes.includes(props.userId)
+                ? "material-icons liked"
+                : "material-icons"
+            }
+          >
+            thumb_up_alt
+          </i>
 
+          <span className="badge">{props.likes.length}</span>
+        </button>
         <button
           onClick={onCommentTrigger}
           className={isCommentTrigger ? "active" : null}

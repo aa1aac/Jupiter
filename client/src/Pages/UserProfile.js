@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import UserProfilePost from "../Components/UserProfilePost/UserProfilePost";
-import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 import "./styles/profile.css";
 import axios from "axios";
 
-class Profile extends Component {
+class UserProfile extends Component {
   state = {
     profile: {},
     posts: [],
@@ -42,6 +42,11 @@ class Profile extends Component {
   }
 
   render() {
+    const onLike = async (id, key) => {
+      await axios.get(`/api/posts/${id}/like`);
+
+      this.fetchPosts();
+    };
     const onMoreInfoTrigger = () => {
       if (this.state.moreInfoTrigger) {
         this.setState({ moreInfoTrigger: false });
@@ -110,11 +115,15 @@ class Profile extends Component {
 
               {this.state.posts
                 ? this.state.posts.map((value, index) => {
+                    console.log(value.likes);
+                    console.log(this.props.userId);
+
                     return (
                       <UserProfilePost
                         userId={this.props.userId}
                         className="postContainer"
                         key={index}
+                        onLike={onLike}
                         index={index}
                         text={value.text}
                         date={value.date}
@@ -136,4 +145,4 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+export default withRouter(UserProfile);
