@@ -9,16 +9,19 @@ class UserProfile extends Component {
   state = {
     profile: {},
     posts: [],
-    moreInfoTrigger: false
+    moreInfoTrigger: false,
+    isFollowing: false
   };
 
   fetchProfile = async () => {
     try {
       const res = await axios.get(`/api/user/${this.props.match.params.id}`);
 
+      console.log(res.data.user);
       this.setState({
         ...this.state,
-        profile: { ...res.data.user }
+        profile: { ...res.data.user },
+        isFollowing: res.data.isFollowing
       });
     } catch (error) {
       console.error(error);
@@ -57,6 +60,19 @@ class UserProfile extends Component {
       }
     };
 
+    const followOrUnfollow = async () => {
+      try {
+        let res = await axios.get(`/api/user/follow/${this.state.profile._id}`);
+
+        this.setState({
+          ...this.state,
+          ...this.state.profile,
+          profile: res.data.user,
+          isFollowing: res.data.isFollowing
+        });
+      } catch (error) {}
+    };
+
     return (
       <div>
         {this.state.profile._id ? (
@@ -84,6 +100,18 @@ class UserProfile extends Component {
                       ? this.state.profile.following.length
                       : 0}
                   </h4>
+
+                  {this.state.isFollowing ? (
+                    <button className="followBtn" onClick={followOrUnfollow}>
+                      {" "}
+                      Unfollow{" "}
+                    </button>
+                  ) : (
+                    <button className="followBtn" onClick={followOrUnfollow}>
+                      {" "}
+                      Follow{" "}
+                    </button>
+                  )}
                 </div>
               </div>
               <div className="post">
@@ -115,9 +143,6 @@ class UserProfile extends Component {
 
               {this.state.posts
                 ? this.state.posts.map((value, index) => {
-                    console.log(value.likes);
-                    console.log(this.props.userId);
-
                     return (
                       <UserProfilePost
                         userId={this.props.userId}

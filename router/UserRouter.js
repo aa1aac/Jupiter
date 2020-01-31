@@ -41,4 +41,8 @@ router.post("/search", isAuth, UserController.searchUser);
 //  /api/user/:id
 router.get("/:id", isAuth, UserController.getSpecificProfile);
 
+// PRIVATE
+//  /api/user/follow/:id
+router.get("/follow/:id", isAuth, UserController.followUser);
+
 module.exports = router;

@@ -6,3 +6,14 @@
   grid-template-columns: 1fr 2fr;
   margin-bottom: 4px;
 }
+
+.followBtn {
+  padding: 5px;
+  outline: none;
+  border: 2px solid blue;
+  border-radius: 10px;
+}
+
+.followBtn:hover {
+  cursor: pointer;
+}

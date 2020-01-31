@@ -180,47 +180,63 @@ const searchUser = (req, res) => {
 };
 
 const getSpecificProfile = (req, res) => {
-  // new functionality
+  User.findById(req.payload.user).then(requestingUser => {
+    if (!requestingUser) return res.json({ error: "invalid request" });
 
-  User.findById(req.payload.user, "-password").then(requestingUser => {
-    if (!requestingUser) return res.json({ error: "invalid user request" });
+    User.findById(req.params.id, "-password").then(user => {
+      let index = user.followers.findIndex(follower => {
+        return follower._user === req.payload.user;
+      });
 
-    console.log(requestingUser.following, "param", req.params.id);
-
-    requestingUser.followers.map(follower => {
-      if (follower._user === req.params.id) {
-        User.findById(req.params.id, "-password").then(queryUser => {
-          let following = true;
-          console.log(following);
-          console.log(queryUser);
-        });
+      if (index !== -1) {
+        res.json({ msg: "fetched user", user, isFollowing: true });
       } else {
-        let following = false;
-        console.log(following);
-        // User.findById(req.params.id, "-password").then(queryUser => {
-        //   console.log(queryUser);
-        // });
+        res.json({ msg: "fetched user", user, isFollowing: false });
       }
     });
   });
+};
 
-  // existing functionality
-  User.findById(req.payload.user)
-    .then(requestingUser => {
-      if (!requestingUser) return res.json({ error: "invalid request" });
+const followUser = (req, res) => {
+  User.findById(req.payload.user, "-password").then(user => {
+    if (!user) return res.json({ error: "invalid request" });
 
-      if (req.params.id === requestingUser._id) return res.redirect("/profile");
-
-      return requestingUser;
-    })
-    .then(requestingUser => {
-      User.findById(req.params.id, "-password").then(user => {
-        // todo check wheteher the user is followed by the requester
-        //  if followed send isFollowing: true  else send isFollowing: false
-
-        return res.json({ user, msg: "user fetched" });
-      });
+    let index = user.following.findIndex(following => {
+      return following._user === req.params.id;
     });
+
+    if (index === -1) {
+      // follow the user
+      user.following.push({ _user: req.params.id });
+
+      user.save().then(() => {
+        User.findById(req.params.id, "-password").then(user => {
+          user.followers.push({ _user: req.payload.user });
+
+          user.save().then(user => {
+            return res.json({ msg: "followed", user, isFollowing:true });
+          });
+        });
+      });
+    } else {
+      // unfollow the user
+      user.following.splice(index, 1);
+
+      user.save().then(() => {
+        User.findById(req.params.id, "-password").then(user => {
+          let indexOfRequester = user.followers.findIndex(follower => {
+            follower._user === req.payload.user;
+          });
+
+          user.followers.splice(indexOfRequester, 1);
+
+          user.save().then(user => {
+            res.json({ msg: "unfollowed", user, isFollowing:false });
+          });
+        });
+      });
+    }
+  });
 };
 
 module.exports = {
@@ -232,5 +248,6 @@ module.exports = {
   editProfile,
   getFollowers,
   searchUser,
-  getSpecificProfile
+  getSpecificProfile,
+  followUser
 };

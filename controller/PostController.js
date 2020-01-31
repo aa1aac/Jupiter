@@ -88,6 +88,8 @@ const getComment = (req, res) => {
     if (!user) return res.json({ error: "no user found" });
 
     Comment.find({ _post: req.params.id }).then(comments => {
+      if (!comments)
+        return res.json({ msg: "no comments found", comments: null });
       res.json({ msg: "comments fetched", comments });
     });
   });
