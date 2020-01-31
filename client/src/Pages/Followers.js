@@ -4,7 +4,7 @@ import Search from "../Components/Search/Search";
 
 import "./styles/followers.css";
 
-const Followers = () => {
+const Followers = props => {
   const [isPageFollower, setIsPageFollower] = useState(true);
   const [isPageFollowing, setIsPageFollowing] = useState(false);
   const [isPageSearch, setIsPageSearch] = useState(false);
@@ -41,6 +41,13 @@ const Followers = () => {
     setFollowing(res.data.userFollowing);
   };
 
+  const navToProfile = id => {
+    // direct to user/profile/id(props.user)
+    props.history.push(`/user/profile/${id}`);
+
+    console.log(props.history);
+  };
+
   return (
     <div className="profile">
       <div />
@@ -75,12 +82,11 @@ const Followers = () => {
             {followers.length ? (
               <div className="followersContainer">
                 {followers.map((follower, index) => (
-                  <div className="followerBox" key={index}>
-                    <div>{/* todo */}</div>
-                    <h4>
-                      {follower.first_name} {follower.last_name}
-                    </h4>
-                  </div>
+                  <Follower
+                    follower={follower}
+                    key={index}
+                    navToProfile={navToProfile}
+                  />
                 ))}
               </div>
             ) : (
@@ -96,12 +102,11 @@ const Followers = () => {
             {following.length ? (
               <div className="followersContainer">
                 {following.map((following, index) => (
-                  <div className="followerBox" key={index}>
-                    <div>{/* todo */}</div>
-                    <h4>
-                      {following.first_name} {following.last_name}
-                    </h4>
-                  </div>
+                  <Following
+                    key={index}
+                    following={following}
+                    navToProfile={navToProfile}
+                  />
                 ))}
               </div>
             ) : (
@@ -112,10 +117,40 @@ const Followers = () => {
 
         {/* Search page */}
 
-        {isPageSearch ? <Search /> : null}
+        {isPageSearch ? <Search navToProfile={navToProfile}/> : null}
       </div>
 
       <div />
+    </div>
+  );
+};
+
+const Follower = props => {
+  const onClickFollower = () => {
+    props.navToProfile(props.follower._id);
+  };
+
+  return (
+    <div className="followerBox">
+      <div>{/* todo */}</div>
+      <h4 className="bold" onClick={onClickFollower}>
+        {props.follower.first_name} {props.follower.last_name}
+      </h4>
+    </div>
+  );
+};
+
+const Following = props => {
+  const onClickFollower = () => {
+    props.navToProfile(props.following._id);
+  };
+
+  return (
+    <div className="followerBox">
+      <div>{/* todo */}</div>
+      <h4 className="bold" onClick={onClickFollower}>
+        {props.following.first_name} {props.following.last_name}
+      </h4>
     </div>
   );
 };

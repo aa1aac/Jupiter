@@ -12,7 +12,8 @@ const UserSchema = new Schema({
   following: [],
   groups: [{ groupId: { type: mongoose.Schema.Types.ObjectId, ref: "Group" } }],
   dateCreated: { default: Date.now, type: Date },
-  dateOfBirth: { type: Date }
+  dateOfBirth: { type: Date },
+  image: { type: String }
 });
 
 module.exports = mongoose.model("User", UserSchema);

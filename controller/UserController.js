@@ -88,7 +88,7 @@ const signup = async (req, res) => {
 const getUser = (req, res) => {
   console.log(req.payload);
 
-  User.findById(req.payload.user, "first_name _id email").then(user => {
+  User.findById(req.payload.user, "first_name _id email ").then(user => {
     if (!user._id) {
       return res.json({ error: "invalid token request" });
     }
@@ -156,23 +156,71 @@ const getFollowers = (req, res) => {
 const searchUser = (req, res) => {
   let queryString = req.body.search;
 
-  User.find(
-    {
-      $and: [
-        { _id: { $ne: req.payload.user } },
-        {
-          $or: [
-            { first_name: { $regex: `^${queryString}.*`, $options: "i" } },
-            { last_name: { $regex: `^${queryString}.*`, $options: "i" } }
-          ]
-        }
-      ]
-    },
-    "first_name _id last_name"
-  ).then(users => {
-    console.log(users);
-    res.json({ msg: "user Successfully fetched", users });
+  User.findById(req.payload.user).then(user => {
+    if (!user) return res.json({ error: "invalid request" });
+
+    User.find(
+      {
+        $and: [
+          { _id: { $ne: req.payload.user } },
+          {
+            $or: [
+              { first_name: { $regex: `^${queryString}.*`, $options: "i" } },
+              { last_name: { $regex: `^${queryString}.*`, $options: "i" } }
+            ]
+          }
+        ]
+      },
+      "first_name _id last_name image"
+    ).then(users => {
+      console.log(users);
+      res.json({ msg: "user Successfully fetched", users });
+    });
   });
+};
+
+const getSpecificProfile = (req, res) => {
+  // new functionality
+
+  User.findById(req.payload.user, "-password").then(requestingUser => {
+    if (!requestingUser) return res.json({ error: "invalid user request" });
+
+    console.log(requestingUser.following, "param", req.params.id);
+
+    requestingUser.followers.map(follower => {
+      if (follower._user === req.params.id) {
+        User.findById(req.params.id, "-password").then(queryUser => {
+          let following = true;
+          console.log(following);
+          console.log(queryUser);
+        });
+      } else {
+        let following = false;
+        console.log(following);
+        // User.findById(req.params.id, "-password").then(queryUser => {
+        //   console.log(queryUser);
+        // });
+      }
+    });
+  });
+
+  // existing functionality
+  User.findById(req.payload.user)
+    .then(requestingUser => {
+      if (!requestingUser) return res.json({ error: "invalid request" });
+
+      if (req.params.id === requestingUser._id) return res.redirect("/profile");
+
+      return requestingUser;
+    })
+    .then(requestingUser => {
+      User.findById(req.params.id, "-password").then(user => {
+        // todo check wheteher the user is followed by the requester
+        //  if followed send isFollowing: true  else send isFollowing: false
+
+        return res.json({ user, msg: "user fetched" });
+      });
+    });
 };
 
 module.exports = {
@@ -183,5 +231,6 @@ module.exports = {
   getProfile,
   editProfile,
   getFollowers,
-  searchUser
+  searchUser,
+  getSpecificProfile
 };

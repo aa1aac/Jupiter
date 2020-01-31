@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {Link} from 'react-router-dom'
 
-import "./ProfilePost.css";
 
-const ProfilePost = props => {
+const UserProfilePost = props => {
   useEffect(() => {
     fetchComments();
   }, []);
@@ -15,7 +13,7 @@ const ProfilePost = props => {
   const [isCommentTrigger, setIsCommentTrigger] = useState(false);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
-  const [onDeleteTrigger, setOnDeleteTrigger] = useState(false);
+
 
   const fetchComments = async () => {
     const res = await axios.get(`/api/posts/${props.post_id}/comment`);
@@ -45,14 +43,6 @@ const ProfilePost = props => {
     }
   };
 
-  const onDeletePost = () => {
-    if (onDeleteTrigger) setOnDeleteTrigger(false);
-    if (!onDeleteTrigger) setOnDeleteTrigger(true);
-  };
-
-  const finalDeletePost = async () => {
-    props.deletePost(props.post_id, props.index);
-  };
 
   return (
     <div className="post">
@@ -77,13 +67,6 @@ const ProfilePost = props => {
       </em>
       <br />
       <div className="postBar">
-        <button
-          onClick={onDeletePost}
-          className={onDeleteTrigger ? "active" : null}
-        >
-          Delete
-          <i className="material-icons">delete_forever</i>
-        </button>
 
         <button
           onClick={onCommentTrigger}
@@ -96,17 +79,6 @@ const ProfilePost = props => {
           </span>
         </button>
       </div>
-
-      {onDeleteTrigger ? (
-        <div>
-          <h4>Are you Sure that you want to delete the post?</h4>
-
-          <button className="delete" onClick={finalDeletePost}>
-            {" "}
-            Yes! DELETE{" "}
-          </button>
-        </div>
-      ) : null}
 
       {isCommentTrigger ? (
         <div className="commentSection">
@@ -144,4 +116,4 @@ const Comment = props => {
   );
 };
 
-export default ProfilePost;
+export default UserProfilePost;

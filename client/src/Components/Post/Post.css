@@ -9,6 +9,10 @@
   font-size: 20px;
 }
 
+.bold:hover{
+  cursor: pointer;
+}
+
 .postContent {
   font-family: cursive, Arial, Helvetica, sans-serif;
   font-size: 20px;

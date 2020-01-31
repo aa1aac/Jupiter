@@ -14,7 +14,7 @@ class Home extends React.Component {
   componentDidMount() {
     this.props.getPost();
   }
-
+  
   onShare = () => {
     if (this.state.text) {
       try {

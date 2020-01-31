@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import "./Search.css";
 
-const Search = () => {
+const Search = props => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
@@ -48,12 +48,11 @@ const Search = () => {
           <h5>Search Results</h5>
           {searchResult.map((user, index) => {
             return (
-              <div className="followerBox" key={index}>
-                <h5>
-                  {" "}
-                  {user.first_name} {user.last_name}
-                </h5>
-              </div>
+              <SearchResult
+                key={index}
+                user={user}
+                navToProfile={props.navToProfile}
+              />
             );
           })}
         </div>
@@ -62,4 +61,18 @@ const Search = () => {
   );
 };
 
+const SearchResult = props => {
+  const onClickSearch = () => {
+    props.navToProfile(props.user._id);
+  };
+
+  return (
+    <div className="followerBox">
+      <h5 className="bold" onClick={onClickSearch}>
+        {" "}
+        {props.user.first_name} {props.user.last_name}
+      </h5>
+    </div>
+  );
+};
 export default Search;

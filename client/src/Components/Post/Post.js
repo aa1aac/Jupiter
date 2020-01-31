@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { withRouter } from "react-router-dom";
 
 import "./Post.css";
 import * as PostAction from "../../store/actions/posts/post";
@@ -49,9 +50,20 @@ const Post = props => {
     }
   };
 
+  const navToProfile = () => {
+    if (props.userId === props.user) {
+      // direct to profile page
+      props.history.push("/profile");
+    } else {
+      // direct to user/profile/id(props.user)
+      props.history.push(`/user/profile/${props.user}`);
+    }
+    console.log(props.history);
+  };
+
   return (
     <div className="post">
-      <div className="bold">
+      <div className="bold" onClick={navToProfile}>
         {" "}
         {props.first_name} {props.last_name}{" "}
       </div>
@@ -128,4 +140,4 @@ const Comment = props => {
   );
 };
 
-export default connect(null, PostAction)(Post);
+export default connect(null, PostAction)(withRouter(Post));

@@ -118,6 +118,12 @@ const getProfilePosts = (req, res) => {
   });
 };
 
+const getOtherUserPosts = (req, res) => {
+  Post.find({ _user: req.params.id }).then(posts => {
+    return res.json({ msg: "posts successfully fetched", posts });
+  });
+};
+
 module.exports = {
   getPosts,
   postPosts,
@@ -125,5 +131,6 @@ module.exports = {
   getProfilePosts,
   likePost,
   postComment,
-  getComment
+  getComment,
+  getOtherUserPosts
 };
