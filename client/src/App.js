@@ -10,6 +10,7 @@ import Profile from "./Pages/Profile";
 import UserProfile from "./Pages/UserProfile";
 import Followers from "./Pages/Followers";
 import Navbar from "./Components/Navbar/Navbar";
+import Messages from "./Pages/Messages";
 
 import "./App.css";
 
@@ -41,12 +42,13 @@ class App extends Component {
                   path="/profile"
                 />
 
-                <Route 
-                exact 
-                
-                path="/user/profile/:id"
-                render={()=> <UserProfile userId={this.props.user._id} />}
+                <Route
+                  exact
+                  path="/user/profile/:id"
+                  render={() => <UserProfile userId={this.props.user._id} />}
                 />
+
+                <Route exact path="/message" render={() => <Messages />} />
               </div>
             ) : (
               <div>

@@ -1,0 +1,12 @@
+.message {
+  color: black;
+  padding-top: 50px;
+  display: grid;
+  grid-template-columns: 0fr 1fr 0fr;
+}
+
+@media screen and (min-width: 748px) {
+  .message {
+    grid-template-columns: 1fr 5fr 1fr;
+  }
+}
