@@ -48,7 +48,7 @@ class App extends Component {
                   render={() => <UserProfile userId={this.props.user._id} />}
                 />
 
-                <Route exact path="/message" render={() => <Messages />} />
+                <Route exact path="/message" render={() => <Messages userId={this.props.user._id} />} />
               </div>
             ) : (
               <div>

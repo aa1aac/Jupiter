@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import * as MessageActions from "../store/actions/message/message";
+import Chat from "../Components/Chat/Chat";
 import "./styles/message.css";
 
 const Messages = props => {
@@ -11,17 +12,15 @@ const Messages = props => {
 
   return (
     <div>
-      <nav className="message">
+      <div className="message">
         <div />
         <div>
           <h2>Messages</h2>
-          <div>BARS</div>
-          <div>BARS</div>
-          <div>BARS</div>
-          <div>BARS</div>
+
+          <Chat userId={props.userId} />
         </div>
         <div />
-      </nav>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,25 @@
+.messages {
+  height: 90%;
+  overflow: auto;
+}
+
+.messageBox {
+  border-radius: 20px;
+  padding: 15px 25px;
+  color: rgb(0, 0, 0);
+  display: flex;
+  max-width: 50%;
+  margin-bottom: 7px;
+}
+
+.sent {
+  background-color: rgb(62, 62, 224);
+  align-items: flex-end; 
+}
+
+.messageText {
+  font-size: 1.3em;
+  font-family: Helvetica;
+  color: #020202;
+  letter-spacing: 0.3px;
+}

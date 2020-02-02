@@ -1,0 +1,31 @@
+.chat {
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+}
+
+.form {
+  display: flex;
+  border-top: 2px solid #d3d3d3;
+  margin-bottom: auto;
+}
+
+.input {
+  border: none;
+  padding: 10px;
+  width: 80%;
+  font-size: 1.2em;
+}
+
+.sendButton {
+  color: #fff !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: blue;
+  padding: 20px;
+  display: inline-block;
+  border: none;
+  width: 20%;
+}

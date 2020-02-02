@@ -26,9 +26,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-io.on('connect',(socket)=>{
-  
-})
+//  socket io require
+require("./socket/messageSocket")(io);
+
 
 const PORT = process.env.PORT || 5000;
 
