@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {Link} from 'react-router-dom'
 import axios from "axios";
 
 import "./styles/message.css";
@@ -16,7 +17,7 @@ const Messages = props => {
     setFollowing([...following, ...res.data.users]);
   };
 
-  console.log(following);
+  
   return (
     <div>
       <div className="message">
@@ -43,9 +44,11 @@ const FollowingUnit = props => {
     <div className="followingUnit">
       <div>{/* todo */}</div>
       <div>
+        <Link to={`/message/user/${props.user._id}`}>
         <h4 className="bold">
           {props.user.first_name} {props.user.last_name}
         </h4>
+        </Link>
       </div>
     </div>
   );

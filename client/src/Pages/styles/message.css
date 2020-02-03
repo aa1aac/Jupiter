@@ -19,3 +19,8 @@
   padding: 5px;
   border-radius: 20px;
 }
+
+.followingUnit a {
+  text-decoration: none;
+  color: black;
+}
