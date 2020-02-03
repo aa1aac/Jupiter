@@ -11,6 +11,7 @@ import UserProfile from "./Pages/UserProfile";
 import Followers from "./Pages/Followers";
 import Navbar from "./Components/Navbar/Navbar";
 import Messages from "./Pages/Messages";
+import Chat from "./Pages/Chat";
 
 import "./App.css";
 
@@ -48,7 +49,17 @@ class App extends Component {
                   render={() => <UserProfile userId={this.props.user._id} />}
                 />
 
-                <Route exact path="/message" render={() => <Messages userId={this.props.user._id} />} />
+                <Route
+                  exact
+                  path="/message/user/:id"
+                  render={() => <Chat senderId={this.props.user._id} />}
+                />
+
+                <Route
+                  exact
+                  path="/message"
+                  render={() => <Messages userId={this.props.user._id} />}
+                />
               </div>
             ) : (
               <div>

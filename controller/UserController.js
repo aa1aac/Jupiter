@@ -214,7 +214,7 @@ const followUser = (req, res) => {
           user.followers.push({ _user: req.payload.user });
 
           user.save().then(user => {
-            return res.json({ msg: "followed", user, isFollowing:true });
+            return res.json({ msg: "followed", user, isFollowing: true });
           });
         });
       });
@@ -231,7 +231,7 @@ const followUser = (req, res) => {
           user.followers.splice(indexOfRequester, 1);
 
           user.save().then(user => {
-            res.json({ msg: "unfollowed", user, isFollowing:false });
+            res.json({ msg: "unfollowed", user, isFollowing: false });
           });
         });
       });
@@ -239,6 +239,30 @@ const followUser = (req, res) => {
   });
 };
 
+const getFollowing = (req, res) => {
+  User.findById(req.payload.user, "following").then(user => {
+    if (!user) return res.json({ error: "invalid user request" });
+    let query = [];
+    user.following.map(user => {
+      query.push(renameProp("_user", "_id", user));
+    });
+
+    User.find({ $or: query }, "first_name last_name _id").then(
+      followingUsers => {
+        
+        return res.json({ users: followingUsers, msg: "users fetched" });
+      }
+    );
+  });
+};
+
+const renameProp = (oldProp, newProp, { [oldProp]: old, ...others }) => {
+  debugger;
+  return {
+    [newProp]: old,
+    ...others
+  };
+};
 module.exports = {
   login,
   logout,
@@ -249,5 +273,6 @@ module.exports = {
   getFollowers,
   searchUser,
   getSpecificProfile,
-  followUser
+  followUser,
+  getFollowing
 };

@@ -7,19 +7,22 @@
   border-radius: 20px;
   padding: 15px 25px;
   color: rgb(0, 0, 0);
-  display: flex;
-  max-width: 50%;
+  display: grid;
+  max-width: 40%;
   margin-bottom: 7px;
-}
-
-.sent {
-  background-color: rgb(62, 62, 224);
-  align-items: flex-end; 
+  border: 2px solid black;
+  grid-template-columns: 1fr 1fr;
 }
 
 .messageText {
   font-size: 1.3em;
   font-family: Helvetica;
-  color: #020202;
+
   letter-spacing: 0.3px;
+}
+
+.sent {
+  background-color: rgb(3, 3, 212);
+  display: relative;
+  color: white;
 }

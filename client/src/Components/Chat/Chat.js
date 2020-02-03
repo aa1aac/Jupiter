@@ -58,7 +58,7 @@ const Chat = props => {
         />
         <button className="sendButton" onClick={sendText}>
           Send <i className="material-icons">send</i>
-        </button>
+        </button>  
       </form>
     </div>
   );

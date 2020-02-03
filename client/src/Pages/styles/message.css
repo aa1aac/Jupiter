@@ -10,3 +10,12 @@
     grid-template-columns: 1fr 4fr 1fr;
   }
 }
+
+.followingUnit {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  border: 2px solid black;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 20px;
+}
