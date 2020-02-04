@@ -21,16 +21,18 @@ const Chat = props => {
   const sendText = e => {
     e.preventDefault();
 
-    if (text) {
-      socket.emit("sendMessage", { text }, () => setText(" "));
+    if (text.trim()) {
+      socket.emit(
+        "sendMessage",
+        { text, senderId: props.senderId, senderName: props.senderName },
+        () => setText(" ")
+      );
     }
   };
 
   useEffect(() => {
     socket.on("message", message => {
       setMessages([...messages, message]);
-
-      console.log(messages);
     });
 
     return () => {
@@ -39,10 +41,6 @@ const Chat = props => {
       socket.off();
     };
   }, [messages]);
-
-  // Interim variables
-  let name = props.userId;
-  let room = "ROOM";
 
   return (
     <div className="chat">
@@ -58,7 +56,7 @@ const Chat = props => {
         />
         <button className="sendButton" onClick={sendText}>
           Send <i className="material-icons">send</i>
-        </button>  
+        </button>
       </form>
     </div>
   );

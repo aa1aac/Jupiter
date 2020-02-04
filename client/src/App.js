@@ -17,6 +17,7 @@ import "./App.css";
 
 class App extends Component {
   render() {
+    console.log(this.props.user);
     return (
       <div>
         <Router>
@@ -32,7 +33,6 @@ class App extends Component {
                   exact
                 />
                 <Route
-                  component={Followers}
                   exact
                   path="/followers"
                   render={() => <Followers userId={this.props.user._id} />}
@@ -52,7 +52,12 @@ class App extends Component {
                 <Route
                   exact
                   path="/message/user/:id"
-                  render={() => <Chat senderId={this.props.user._id} />}
+                  render={() => (
+                    <Chat
+                      senderId={this.props.user._id}
+                      senderName={this.props.user.first_name}
+                    />
+                  )}
                 />
 
                 <Route
