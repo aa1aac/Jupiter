@@ -13,8 +13,10 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.props.getPost();
+
+    // window.addEventListener("scroll", this.onScroll);
   }
-  
+
   onShare = () => {
     if (this.state.text) {
       try {
@@ -29,9 +31,13 @@ class Home extends React.Component {
     }
   };
 
+  onScroll = () => {
+    this.props.getPost(this.props.posts.length);
+  };
+
   render() {
     return (
-      <div>
+      <div onScroll={this.onScroll}>
         <div className="home">
           <div />
           <div className="content">
@@ -70,6 +76,13 @@ class Home extends React.Component {
                   );
                 })
               : null}
+
+            {this.props.posts.length ? (
+              <button onClick={this.onScroll} className="loadMore">
+                {" "}
+                Load more{" "}
+              </button>
+            ) : null}
           </div>
 
           <div />

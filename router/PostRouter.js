@@ -6,7 +6,9 @@ const router = express.Router();
 
 // /api/posts
 // PRIVATE   GET
-router.get("/", isAuth, PostController.getPosts);
+router.get("/:skip", isAuth, PostController.getPosts);
+
+// /api/posts/pagination
 
 // /api/posts/
 // PRIVATE  POST

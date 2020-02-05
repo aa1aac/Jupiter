@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const socketio = require("socket.io");
+
 const http = require("http");
 
 const UserRouter = require("./router/UserRouter");
@@ -9,8 +9,6 @@ const PostRouter = require("./router/PostRouter");
 const config = require("./config");
 
 const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
 
 app.use(cookieParser());
 app.use(express.json());
@@ -26,13 +24,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-//  socket io require
-require("./socket/messageSocket")(io);
-
-
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT || 5000, () => {
+app.listen(PORT || 5000, () => {
   console.log(`Server listeninng on port : ${PORT}`);
 
   mongoose

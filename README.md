@@ -1,6 +1,6 @@
 # Jupiter
 
-This app is under development.
+This app is used to connect between people and share their ideas. It loosely resembles with functionality in twitter.
 
 > version 1.0.0
 
@@ -12,7 +12,7 @@ This app is under development.
 - Node
 - Redux
 
-> Current features
+> features
 
 - create/signup the user
 - make a post

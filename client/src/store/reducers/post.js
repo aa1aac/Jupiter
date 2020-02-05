@@ -7,7 +7,7 @@ export default (state = initialState, action) => {
     case POST:
       return [...state, action.payload];
     case GET_POST:
-      return [...action.payload];
+      return [...state, ...action.payload];
     case LIKE_POST:
       state.splice(
         action.payload.key,

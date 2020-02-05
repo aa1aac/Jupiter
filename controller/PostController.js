@@ -8,11 +8,15 @@ const getPosts = (req, res) => {
 
     search.push({ _user: user._id });
 
+    let skip = parseInt(req.params.skip);
+
     Post.find({ $or: search })
+
       .sort({ date: -1 })
       .limit(5)
+      .skip(skip)
       .then(posts => {
-        console.log(posts[0]._user);
+        if (posts.length===0 ) return res.json({ posts: [], error: "no more posts" });
         res.json({ posts: posts });
       });
   });
