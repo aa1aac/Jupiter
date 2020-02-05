@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
 import Messages from "../Messages/Messages";
+import { withRouter } from "react-router-dom";
 
 import "./Chat.css";
 
@@ -12,7 +13,15 @@ const Chat = props => {
   useEffect(() => {
     socket = io(ENDPOINT);
 
-    socket.emit("connect");
+    socket.emit(
+      "join",
+      {
+        userId: props.senderId,
+        rooms: { room1: props.senderId, room2: props.match.params.id },
+        name: props.senderName
+      },
+      error => {}
+    );
   }, []);
 
   const [messages, setMessages] = useState([]);
@@ -24,7 +33,12 @@ const Chat = props => {
     if (text.trim()) {
       socket.emit(
         "sendMessage",
-        { text, senderId: props.senderId, senderName: props.senderName },
+        {
+          text,
+          senderId: props.senderId,
+          senderName: props.senderName,
+          receiver: props.match.params.id
+        },
         () => setText(" ")
       );
     }
@@ -42,6 +56,7 @@ const Chat = props => {
     };
   }, [messages]);
 
+  console.log(messages);
   return (
     <div className="chat">
       <Messages messages={messages} />
@@ -62,4 +77,4 @@ const Chat = props => {
   );
 };
 
-export default Chat;
+export default withRouter(Chat);

@@ -17,8 +17,11 @@ const Messages = props => {
 
 const SingleMessage = props => {
   return (
-    <div className="messageBox sent">
-      <div className="messageText ">{props.message.text}</div>
+    <div>
+      <em>{props.message.sender}</em>
+      <div className="messageBox sent">
+        <div className="messageText ">{props.message.text}</div>
+      </div>
     </div>
   );
 };

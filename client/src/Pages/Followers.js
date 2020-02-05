@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Search from "../Components/Search/Search";
+import { withRouter } from "react-router-dom";
 
 import "./styles/followers.css";
 
@@ -44,8 +45,7 @@ const Followers = props => {
   const navToProfile = id => {
     // direct to user/profile/id(props.user)
     props.history.push(`/user/profile/${id}`);
-
-    console.log(props.history);
+ 
   };
 
   return (
@@ -117,7 +117,7 @@ const Followers = props => {
 
         {/* Search page */}
 
-        {isPageSearch ? <Search navToProfile={navToProfile}/> : null}
+        {isPageSearch ? <Search navToProfile={navToProfile} /> : null}
       </div>
 
       <div />
@@ -155,4 +155,4 @@ const Following = props => {
   );
 };
 
-export default Followers;
+export default withRouter(Followers);

@@ -1,16 +1,47 @@
+const socketHelper = require("./socketHelper");
+
 module.exports = io => {
   io.on("connect", socket => {
-    
+    socket.on("join", ({ userId, rooms, name }, callback) => {
+      const { error, user } = socketHelper.addUser({
+        id: socket.id,
+        name,
+        rooms,
+        userId
+      });
 
-    socket.on("sendMessage", (message, callback) => {
-     
-      io.emit("message", { text: message.text });
+      if (error) return callback(error);
 
-      callback();
+      socket.emit("message", {
+        sender: "admin",
+        text: "hey welcome to the chat"
+      });
+
+      socket.on("sendMessage", (message, callback) => {
+        const receiver = socketHelper.getUser(message.receiver);
+        const sender = socketHelper.getUser(message.senderId);
+
+        if (receiver) {
+          socket.join(receiver.id);
+          io.to(receiver.id).emit("message", {
+            text: message.text,
+            sender: sender.name
+          });
+
+          io.to(sender.id).emit("message", {
+            text: message.text,
+            sender: sender.name
+          });
+        } else {
+          // save the data for sending to the user for future reference
+        }
+
+        callback();
+      });
     });
 
     socket.on("disconnect", () => {
-      console.log("user disconnected");
+      socketHelper.removeUser(socket.id);
     });
   });
 };

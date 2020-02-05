@@ -21,9 +21,7 @@ This app is under development.
 - view followers/ following
 - follow/unfollow users
 
-> Feature working on
 
-- messaging functionality
 
 ### Way to use the app
 
